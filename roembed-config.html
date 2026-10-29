@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+<!-- Primary SEO Meta -->
+<title>RoEmbed Configurator — Build 3D Roblox Avatar & Item Embeds</title>
+<meta name="description" content="Configure interactive 3D Roblox avatar and catalog item embeds with camera, lighting, and animation controls. Copy production-ready iframe code in seconds."/>
+<meta name="keywords" content="roembed configurator, roblox iframe configurator, roblox 3d widget builder, roblox avatar embed generator, roblox item embed generator, 3d roblox configurator"/>
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+<meta name="author" content="RoEmbed"/>
+<meta name="theme-color" content="#00e5ff"/>
+
+<!-- Canonical -->
+<link rel="canonical" href="https://roembed.com/configurator"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://roembed.com/configurator"/>
+<meta property="og:title" content="RoEmbed Configurator — Build 3D Roblox Embeds"/>
+<meta property="og:description" content="Create and customize interactive 3D Roblox avatar and item embeds, then copy iframe code instantly."/>
+<meta property="og:image" content="https://roembed.com/logo.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="RoEmbed Configurator"/>
+<meta property="og:site_name" content="RoEmbed"/>
+<meta property="og:locale" content="en_US"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:url" content="https://roembed.com/configurator"/>
+<meta name="twitter:title" content="RoEmbed Configurator — Build 3D Roblox Embeds"/>
+<meta name="twitter:description" content="Customize camera, animation, lighting, and scene settings for Roblox avatar or item embeds."/>
+<meta name="twitter:image" content="https://roembed.com/logo.png"/>
+<meta name="twitter:image:alt" content="RoEmbed Configurator preview"/>
+<link rel="icon" type="image/png" href="./logo.png">
+
+<!-- Additional SEO -->
+<link rel="alternate" hreflang="en" href="https://roembed.com/configurator"/>
+<link rel="alternate" hreflang="x-default" href="https://roembed.com/configurator"/>
+
+<!-- Structured Data: WebPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "RoEmbed Configurator",
+  "url": "https://roembed.com/configurator",
+  "description": "Visual configurator for Roblox avatar and item 3D embeds.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "RoEmbed",
+    "url": "https://roembed.com"
+  }
+}
+</script>
+
+<!-- Structured Data: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://roembed.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Configurator",
+      "item": "https://roembed.com/configurator"
+    }
+  ]
+}
+</script>
+
+<!-- Structured Data: HowTo -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to create a Roblox 3D embed with RoEmbed",
+  "description": "Build and publish a Roblox avatar or item iframe using the RoEmbed Configurator.",
+  "totalTime": "PT2M",
+  "tool": {
+    "@type": "HowToTool",
+    "name": "RoEmbed Configurator"
+  },
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Choose source type",
+      "text": "Pick Avatar or Catalog Item mode."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Load Roblox ID",
+      "text": "Enter a User ID or Asset ID, then click Load."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Copy embed code",
+      "text": "Tune camera, lighting, and animation settings, then copy the generated iframe."
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#07070b;
+  --surface:#0d0d15;
+  --surface2:#111119;
+  --surface3:#171722;
+  --panel:#0a0a12;
+  --panel2:rgba(10,10,18,.88);
+  --cyan:#00e5ff;
+  --cyan-dim:rgba(0,229,255,.08);
+  --cyan-glow:rgba(0,229,255,.22);
+  --lime:#b2ff59;
+  --white:#edf0f7;
+  --gray:#8a91a8;
+  --gray-dark:#4a5068;
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(255,255,255,.1);
+  --danger:#ff6b81;
+  --shadow:0 20px 60px rgba(0,0,0,.35);
+  --font-display:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  background:
+    radial-gradient(circle at top left, rgba(0,229,255,.06), transparent 28%),
+    radial-gradient(circle at top right, rgba(160,90,255,.06), transparent 28%),
+    linear-gradient(180deg, #08080d 0%, #050509 100%);
+  color:var(--white);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+}
+svg{display:block}
+
+.app{
+  display:grid;
+  grid-template-columns:1fr 420px;
+  grid-template-rows:64px 1fr;
+  height:100vh;
+  height:100dvh;
+}
+
+/* Topbar */
+.topbar{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:0 20px;
+  background:rgba(10,10,18,.82);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  z-index:20;
+}
+.logo{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:1.15rem;
+  letter-spacing:1px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.logo .logo-ro{color:var(--white)}
+.logo .logo-embed{color:var(--cyan);text-shadow:0 0 30px var(--cyan-glow)}
+.logo .logo-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan-glow);
+  animation:logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse{
+  0%,100%{opacity:1;box-shadow:0 0 12px var(--cyan-glow)}
+  50%{opacity:.5;box-shadow:0 0 4px var(--cyan-glow)}
+}
+.topbar-sep{width:1px;height:24px;background:var(--border)}
+.topbar-title{
+  font-size:.88rem;
+  color:var(--gray);
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.mode-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+  font-family:var(--font-mono);
+  font-size:.68rem;
+  color:var(--gray);
+}
+.mode-chip strong{color:var(--cyan);font-weight:600}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.topbar-inputs{display:flex;align-items:center;gap:10px}
+.select-shell,
+.topbar-id{
+  display:flex;
+  align-items:center;
+  background:rgba(0,0,0,.28);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  transition:border-color .25s, box-shadow .25s;
+  min-height:40px;
+}
+.select-shell:focus-within,
+.topbar-id:focus-within{
+  border-color:var(--cyan);
+  box-shadow:0 0 0 4px rgba(0,229,255,.06);
+}
+.select-shell select{
+  min-width:160px;
+  padding:0 14px;
+  height:40px;
+  border:none;
+  background:transparent;
+  color:var(--white);
+  font-family:var(--font-body);
+  font-size:.86rem;
+  outline:none;
+  cursor:pointer;
+}
+.topbar-id input{
+  width:190px;
+  padding:0 12px;
+  height:40px;
+  border:none;
+  background:transparent;
+  color:var(--white);
+  font-family:var(--font-mono);
+  font-size:.82rem;
+  outline:none;
+}
+.topbar-id input::placeholder{color:var(--gray-dark)}
+.topbar-id button{
+  padding:0 14px;
+  height:40px;
+  border:none;
+  border-left:1px solid var(--border);
+  background:linear-gradient(135deg, var(--cyan) 0%, #55f2ff 100%);
+  color:#050509;
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:.72rem;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:transform .18s, filter .18s, opacity .2s;
+}
+.topbar-id button:hover{filter:brightness(1.06)}
+.topbar-id button:active{transform:translateY(1px)}
+.topbar-id button:disabled{opacity:.45;cursor:not-allowed}
+
+/* Preview */
+.preview{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.01), rgba(255,255,255,0));
+}
+.preview-canvas{position:absolute;inset:0;z-index:1}
+.preview-canvas canvas{width:100%!important;height:100%!important}
+.preview-canvas canvas{touch-action:none}
+.preview-status{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  transition:opacity .35s;
+  z-index:5;
+}
+.preview-status.hidden{opacity:0}
+.preview-status-box{
+  text-align:center;
+  min-width:320px;
+  max-width:520px;
+  padding:24px 26px;
+  background:rgba(10,10,18,.78);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+}
+.preview-status-box h3{
+  font-family:var(--font-display);
+  font-size:1rem;
+  margin-bottom:6px;
+  letter-spacing:.3px;
+}
+.preview-status-box p{
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  color:var(--gray);
+  line-height:1.7;
+}
+.loader{
+  display:none;
+  width:28px;height:28px;
+  margin:0 auto 12px;
+  border:2.5px solid rgba(255,255,255,.08);
+  border-top-color:var(--cyan);
+  border-radius:50%;
+  animation:spin .6s linear infinite
+}
+.loader.on{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.checker{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(45deg,#151520 25%,transparent 25%),
+    linear-gradient(-45deg,#151520 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#151520 75%),
+    linear-gradient(-45deg,transparent 75%,#151520 75%);
+  background-size:24px 24px;
+  background-position:0 0,0 12px,12px -12px,-12px 0;
+  opacity:0;
+  transition:opacity .3s
+}
+.checker.show{opacity:1}
+.preview-label{
+  position:absolute;
+  bottom:14px;left:14px;z-index:7;
+  padding:7px 12px;
+  border-radius:10px;
+  background:rgba(10,10,18,.8);
+  border:1px solid var(--border);
+  font-family:var(--font-mono);
+  font-size:.65rem;
+  color:var(--gray-dark);
+  letter-spacing:.5px;
+  backdrop-filter:blur(10px)
+}
+.preview-badge{
+  position:absolute;
+  top:14px;left:14px;z-index:7;
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  border-radius:12px;
+  background:rgba(10,10,18,.8);
+  border:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  font-family:var(--font-mono);
+  font-size:.7rem;
+  color:var(--gray);
+}
+.preview-badge .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan-glow);
+}
+.preview-badge strong{color:var(--white);font-weight:600}
+
+/* Welcome overlay */
+.mode-overlay{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  z-index:999;
+  background:
+    radial-gradient(circle at center, rgba(0,229,255,.04), transparent 40%),
+    rgba(6,6,10,.68);
+  backdrop-filter:blur(8px);
+  padding:16px 10px;
+  overflow:hidden;
+  transition:opacity .3s, visibility .3s;
+}
+.mode-overlay.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.mode-card{
+  width:min(760px, calc(100% - 40px));
+  padding:26px;
+  border-radius:26px;
+  background:rgba(10,10,18,.9);
+  border:1px solid var(--border2);
+  box-shadow:var(--shadow);
+  max-height:calc(100dvh - 32px);
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+.mode-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:5px 10px;
+  margin-bottom:10px;
+  border-radius:999px;
+  background:rgba(0,229,255,.1);
+  border:1px solid rgba(0,229,255,.3);
+  color:var(--cyan);
+  font-family:var(--font-mono);
+  font-size:.66rem;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+}
+.mode-head{margin-bottom:18px}
+.mode-head h2{
+  font-family:var(--font-display);
+  font-size:1.5rem;
+  margin-bottom:8px;
+}
+.mode-head p{
+  color:var(--gray);
+  line-height:1.65;
+  font-size:.95rem;
+}
+.guide-block{
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:rgba(0,0,0,.24);
+  padding:14px;
+  margin-bottom:14px;
+}
+.guide-title{
+  font-family:var(--font-display);
+  font-size:.9rem;
+  margin-bottom:8px;
+}
+.guide-steps{
+  display:grid;
+  gap:8px;
+}
+.guide-step{
+  display:grid;
+  grid-template-columns:22px 1fr;
+  gap:8px;
+  align-items:start;
+}
+.guide-step-index{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--cyan-dim);
+  border:1px solid rgba(0,229,255,.3);
+  color:var(--cyan);
+  font-family:var(--font-mono);
+  font-size:.68rem;
+}
+.guide-step p{
+  color:var(--gray);
+  font-size:.84rem;
+  line-height:1.55;
+}
+.guide-tip{
+  margin-top:10px;
+  color:var(--gray);
+  font-size:.76rem;
+  line-height:1.65;
+}
+.guide-tip strong{color:var(--white);font-weight:600}
+.guide-remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+  color:var(--gray);
+  font-size:.78rem;
+}
+.guide-remember input{
+  width:14px;
+  height:14px;
+}
+.mode-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.mode-option{
+  position:relative;
+  padding:18px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+  cursor:pointer;
+  transition:transform .2s, border-color .2s, background .2s, box-shadow .2s;
+}
+.mode-option:hover{
+  transform:translateY(-2px);
+  border-color:rgba(0,229,255,.3);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.mode-option.active{
+  border-color:var(--cyan);
+  background:linear-gradient(180deg, rgba(0,229,255,.08), rgba(255,255,255,.02));
+  box-shadow:0 0 0 4px rgba(0,229,255,.05);
+}
+.mode-option-top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.mode-icon{
+  width:42px;height:42px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--cyan-dim);
+  color:var(--cyan);
+}
+.mode-icon svg{width:20px;height:20px}
+.mode-option h3{
+  font-family:var(--font-display);
+  font-size:1rem;
+}
+.mode-option p{
+  color:var(--gray);
+  line-height:1.65;
+  font-size:.88rem;
+}
+.mode-action{
+  margin-top:18px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+.mode-action button{
+  border:none;
+  border-radius:12px;
+  padding:12px 18px;
+  background:linear-gradient(135deg, var(--cyan) 0%, #55f2ff 100%);
+  color:#050509;
+  font-family:var(--font-display);
+  font-size:.82rem;
+  font-weight:800;
+  letter-spacing:.7px;
+  cursor:pointer;
+  transition:transform .18s, filter .18s, opacity .2s;
+}
+.mode-action button:hover{filter:brightness(1.05)}
+.mode-action button:active{transform:translateY(1px)}
+.mode-action button:disabled{opacity:.45;cursor:not-allowed}
+.mode-action .btn-subtle{
+  background:transparent;
+  color:var(--gray);
+  border:1px solid var(--border);
+}
+.mode-action .btn-subtle:hover{
+  color:var(--white);
+  border-color:var(--border2);
+  filter:none;
+}
+
+/* Sidebar */
+.sidebar{
+  background:var(--panel2);
+  backdrop-filter:blur(18px);
+  border-left:1px solid var(--border);
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:var(--surface3) transparent
+}
+.sidebar::-webkit-scrollbar{width:5px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+.s-group{border-bottom:1px solid var(--border)}
+.s-header{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 18px;
+  cursor:pointer;user-select:none;
+  transition:background .2s
+}
+.s-header:hover{background:rgba(255,255,255,.015)}
+.s-icon{
+  width:30px;height:30px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--cyan-dim);flex-shrink:0;
+  color:var(--cyan);
+}
+.s-icon svg{width:16px;height:16px}
+.s-header h4{
+  font-family:var(--font-display);
+  font-size:.86rem;
+  font-weight:700;
+  flex:1;
+  letter-spacing:.2px
+}
+.s-arrow{
+  width:18px;height:18px;color:var(--gray-dark);
+  transition:transform .25s;
+  display:flex;align-items:center;justify-content:center
+}
+.s-group.closed .s-arrow{transform:rotate(-90deg)}
+.s-body{padding:0 18px 16px;display:flex;flex-direction:column;gap:14px}
+.s-group.closed .s-body{display:none}
+
+/* Form */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{
+  font-size:.72rem;
+  font-family:var(--font-mono);
+  color:var(--gray-dark);
+  letter-spacing:.5px;
+  text-transform:uppercase
+}
+.field-row{display:flex;gap:8px;align-items:center}
+.field-hint{
+  font-size:.62rem;color:var(--gray-dark);
+  font-family:var(--font-mono);font-style:italic;margin-top:2px
+}
+input[type="range"]{
+  -webkit-appearance:none;width:100%;height:4px;border-radius:2px;
+  background:var(--surface3);outline:none
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--cyan);cursor:pointer;border:2px solid var(--black);
+  box-shadow:0 0 8px var(--cyan-glow)
+}
+input[type="range"]::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--black);background:var(--cyan);cursor:pointer
+}
+.range-val{
+  font-family:var(--font-mono);
+  font-size:.72rem;color:var(--cyan);
+  min-width:40px;text-align:right
+}
+input[type="number"]{
+  width:64px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);
+  background:rgba(0,0,0,.3);color:var(--white);
+  font-family:var(--font-mono);font-size:.78rem;outline:none;
+  text-align:center;transition:border-color .2s
+}
+input[type="number"]:focus{border-color:var(--cyan)}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type="number"]{-moz-appearance:textfield}
+input[type="color"]{
+  width:34px;height:34px;border:2px solid var(--border);border-radius:10px;
+  background:none;cursor:pointer;padding:0;-webkit-appearance:none
+}
+input[type="color"]::-webkit-color-swatch-wrapper{padding:2px}
+input[type="color"]::-webkit-color-swatch{border:none;border-radius:5px}
+.color-hex{
+  font-family:var(--font-mono);font-size:.75rem;color:var(--gray);
+  padding:6px 8px;border-radius:8px;background:rgba(0,0,0,.2);
+  border:1px solid var(--border);min-width:78px
+}
+.toggle{display:flex;align-items:center;gap:10px;cursor:pointer}
+.toggle-track{
+  width:40px;height:22px;border-radius:11px;background:var(--surface3);
+  border:1px solid var(--border);position:relative;transition:all .25s;flex-shrink:0
+}
+.toggle-track::after{
+  content:'';
+  position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
+  background:var(--gray-dark);transition:all .25s
+}
+.toggle.on .toggle-track{background:rgba(0,229,255,.15);border-color:var(--cyan)}
+.toggle.on .toggle-track::after{left:20px;background:var(--cyan)}
+.toggle-label{font-size:.82rem;color:var(--gray)}
+.pills{display:flex;gap:4px;flex-wrap:wrap}
+.pill{
+  padding:7px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;
+  font-family:var(--font-mono);font-size:.72rem;color:var(--gray);
+  cursor:pointer;transition:all .2s;letter-spacing:.3px
+}
+.pill:hover{border-color:rgba(255,255,255,.12);color:var(--white)}
+.pill.active{border-color:var(--cyan);background:var(--cyan-dim);color:var(--cyan)}
+
+/* Lights */
+.light-item{
+  display:grid;grid-template-columns:auto 1fr auto;
+  gap:8px;align-items:center;padding:10px 12px;border-radius:12px;
+  background:rgba(0,0,0,.2);border:1px solid var(--border)
+}
+.light-item input[type="color"]{width:30px;height:30px}
+.light-remove{
+  width:26px;height:26px;border-radius:8px;border:none;
+  background:rgba(255,80,80,.1);color:#ff5555;font-size:.88rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .2s
+}
+.light-remove:hover{background:rgba(255,80,80,.2)}
+.btn-add-light{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px;border-radius:10px;border:1px dashed var(--border);
+  background:transparent;color:var(--gray);
+  font-family:var(--font-mono);font-size:.72rem;cursor:pointer;transition:all .2s
+}
+.btn-add-light:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Angle disc */
+.angle-row{display:flex;align-items:center;gap:14px}
+.angle-disc{
+  position:relative;width:58px;height:58px;border-radius:50%;
+  border:1.5px solid var(--border);background:rgba(0,0,0,.25);flex-shrink:0
+}
+.angle-disc::after{
+  content:'';
+  position:absolute;top:50%;left:50%;width:4px;height:4px;
+  margin:-2px 0 0 -2px;border-radius:50%;background:var(--gray-dark)
+}
+.angle-needle{
+  position:absolute;bottom:50%;left:50%;width:2px;height:24px;margin-left:-1px;
+  background:var(--cyan);border-radius:1px;transform-origin:bottom center;
+  transition:transform .12s ease-out;box-shadow:0 0 6px var(--cyan-glow)
+}
+.angle-needle::after{
+  content:'';position:absolute;top:-2px;left:-2px;width:6px;height:6px;
+  border-radius:50%;background:var(--cyan)
+}
+
+/* Output */
+.output-section{
+  border-top:1px solid var(--border);
+  padding:16px 18px;
+  background:rgba(0,0,0,.2)
+}
+.output-section h4{
+  font-family:var(--font-display);
+  font-size:.84rem;font-weight:700;
+  margin-bottom:10px;display:flex;align-items:center;gap:8px
+}
+.output-section h4 span{color:var(--cyan)}
+.output-tabs{display:flex;gap:4px;margin-bottom:10px}
+.output-tab{
+  padding:6px 12px;border-radius:8px;border:none;background:transparent;
+  color:var(--gray-dark);font-family:var(--font-mono);font-size:.68rem;
+  cursor:pointer;transition:all .2s
+}
+.output-tab.active{background:var(--cyan-dim);color:var(--cyan)}
+.output-code{
+  position:relative;border-radius:12px;overflow:hidden;
+  border:1px solid var(--border);background:rgba(0,0,0,.42)
+}
+.output-code pre{
+  padding:14px;font-family:var(--font-mono);font-size:.7rem;line-height:1.75;
+  color:var(--gray);overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:180px
+}
+.output-code .hl{color:var(--cyan)}
+.output-code .str{color:var(--lime)}
+.btn-copy{
+  position:absolute;top:8px;right:8px;padding:6px 10px;border-radius:8px;border:none;
+  background:var(--surface3);color:var(--gray);font-family:var(--font-mono);
+  font-size:.65rem;cursor:pointer;transition:all .2s;z-index:2
+}
+.btn-copy:hover{background:var(--cyan-dim);color:var(--cyan)}
+.btn-copy.copied{background:rgba(178,255,89,.1);color:var(--lime)}
+
+code{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  padding:2px 6px;
+  border-radius:6px;
+  color:var(--white);
+}
+
+@media(max-width:980px){
+  .app{
+    grid-template-columns:1fr;
+    grid-template-rows:auto minmax(42vh,48vh) 1fr;
+  }
+
+  .topbar{
+    padding:10px 12px;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+
+  .topbar-sep{display:none}
+
+  .topbar-title{
+    order:2;
+    width:100%;
+    font-size:.8rem;
+    justify-content:space-between;
+    gap:8px;
+  }
+
+  .topbar-right{
+    order:3;
+    width:100%;
+    margin-left:0;
+  }
+
+  .topbar-inputs{
+    width:100%;
+    gap:8px;
+  }
+
+  .select-shell,
+  .topbar-id{
+    min-width:0;
+    flex:1;
+  }
+
+  .select-shell select{
+    min-width:0;
+    width:100%;
+    font-size:.82rem;
+  }
+
+  .topbar-id input{
+    width:100%;
+    min-width:0;
+    font-size:.78rem;
+  }
+
+  .topbar-id button{
+    padding:0 12px;
+    font-size:.68rem;
+  }
+
+  .preview{min-height:42vh}
+
+  .preview-status-box{
+    min-width:0;
+    width:calc(100% - 24px);
+    max-width:560px;
+    padding:18px;
+  }
+
+  .mode-card{
+    width:calc(100% - 20px);
+    padding:18px;
+    border-radius:20px;
+    max-height:calc(100dvh - 20px);
+  }
+
+  .mode-grid{grid-template-columns:1fr}
+
+  .sidebar{
+    border-left:none;
+    border-top:1px solid var(--border);
+  }
+
+  .output-code pre{
+    max-height:160px;
+    font-size:.67rem;
+  }
+}
+
+@media(max-width:640px){
+  html,body{overflow:auto}
+
+  .topbar-title{align-items:flex-start;flex-direction:column}
+
+  .mode-chip{font-size:.64rem;padding:5px 8px}
+
+  .topbar-inputs{flex-direction:column}
+
+  .select-shell,
+  .topbar-id{width:100%}
+
+  .preview-label{display:none}
+
+  .mode-overlay{
+    align-items:flex-start;
+    padding:10px;
+  }
+
+  .preview-badge{
+    top:10px;
+    left:10px;
+    padding:7px 10px;
+    font-size:.64rem;
+  }
+
+  .field-row{flex-wrap:wrap}
+
+  .angle-row{align-items:flex-start}
+
+  .angle-disc{
+    width:52px;
+    height:52px;
+  }
+
+  .light-item{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .light-remove{
+    justify-self:flex-end;
+  }
+
+  .output-tabs{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo"><span class="logo-ro">Ro</span><span class="logo-embed">Embed</span><span class="logo-dot"></span></div>
+    <div class="topbar-sep"></div>
+    <div class="topbar-title">
+      Universal Widget Configurator
+      <div class="mode-chip">mode: <strong id="modeChip">avatar</strong></div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="topbar-inputs">
+        <div class="select-shell">
+          <select id="assetModeSelect">
+            <option value="avatar">Avatar</option>
+            <option value="item">Catalog Item</option>
+          </select>
+        </div>
+
+        <div class="topbar-id">
+          <input id="assetInput" placeholder="Roblox User ID…" value="1502571"/>
+          <button id="loadBtn">LOAD</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview">
+    <div class="checker" id="checker"></div>
+    <div class="preview-canvas" id="previewCanvas"></div>
+
+    <div class="preview-badge">
+      <div class="dot"></div>
+      <span>Live Preview — <strong id="previewModeLabel">Avatar</strong></span>
+    </div>
+
+    <div class="preview-status" id="pStatus">
+      <div class="preview-status-box">
+        <div class="loader" id="pLoader"></div>
+        <h3 id="pTitle">Choose a mode to begin</h3>
+        <p id="pMsg">Pick Avatar or Catalog Item, enter an ID, then press Load.</p>
+      </div>
+    </div>
+
+    <div class="mode-overlay" id="modeOverlay">
+      <div class="mode-card">
+        <div class="mode-head">
+          <div class="mode-kicker">Quick tutorial</div>
+          <h2>Start here in 30 seconds</h2>
+          <p>
+            This configurator is powerful. Use these short steps to load your first model fast.
+          </p>
+        </div>
+
+        <div class="guide-block">
+          <div class="guide-title">How it works</div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="guide-step-index">1</div>
+              <p>Choose <strong>Avatar</strong> or <strong>Catalog Item</strong>.</p>
+            </div>
+            <div class="guide-step">
+              <div class="guide-step-index">2</div>
+              <p>Enter a Roblox ID, then click <strong>Load</strong> to generate the 3D preview.</p>
+            </div>
+            <div class="guide-step">
+              <div class="guide-step-index">3</div>
+              <p>Adjust camera, lighting, animation, and scene settings in the sidebar.</p>
+            </div>
+            <div class="guide-step">
+              <div class="guide-step-index">4</div>
+              <p>Copy the final embed code from the <strong>Embed Code</strong> panel.</p>
+            </div>
+          </div>
+          <p class="guide-tip">
+            <strong>Clean URL formats:</strong>
+            <code>/avatar/{userId}</code> and <code>/item/{assetId}</code>.
+            The configurator generates these routes directly.
+          </p>
+          <label class="guide-remember">
+            <input type="checkbox" id="guideRememberToggle"/>
+            Do not show this guide again on this browser
+          </label>
+        </div>
+
+        <div class="mode-grid">
+          <div class="mode-option active" data-mode-card="avatar">
+            <div class="mode-option-top">
+              <div class="mode-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8Z"/>
+                  <path d="M5 21a7 7 0 0 1 14 0"/>
+                </svg>
+              </div>
+              <h3>Avatar</h3>
+            </div>
+            <p>Load a Roblox user by <strong>User ID</strong> and preview the 3D avatar.</p>
+          </div>
+
+          <div class="mode-option" data-mode-card="item">
+            <div class="mode-option-top">
+              <div class="mode-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 8.5L12 4L3 8.5L12 13l9-4.5Z"/>
+                  <path d="M3 8.5V15.5L12 20l9-4.5V8.5"/>
+                  <path d="M12 13v7"/>
+                </svg>
+              </div>
+              <h3>Catalog Item</h3>
+            </div>
+            <p>Load a catalog item by <strong>Asset ID</strong> and preview its 3D model.</p>
+          </div>
+        </div>
+
+        <div class="mode-action">
+          <button id="skipGuideBtn" class="btn-subtle">SKIP GUIDE</button>
+          <button id="startConfiguratorBtn">START CONFIGURATOR</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-label">Live Preview — drag to orbit</div>
+  </div>
+
+  <div class="sidebar">
+
+    <div class="s-group">
+      <div class="s-header">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13.5 3H7a2 2 0 0 0-2 2v6.5"/>
+            <path d="M10.5 21H17a2 2 0 0 0 2-2v-6.5"/>
+            <path d="M20 8h-4V4"/>
+            <path d="M4 16h4v4"/>
+            <path d="M8 8l8 8"/>
+          </svg>
+        </div>
+        <h4>Source</h4>
+        <div class="s-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="s-body">
+        <div class="field">
+          <label>Viewer Type</label>
+          <div class="pills" id="sourcePills">
+            <button class="pill active" data-source="avatar">Avatar</button>
+            <button class="pill" data-source="item">Catalog Item</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label id="sourceIdLabel">Roblox User ID</label>
+          <div class="field-hint" id="sourceIdHint">Avatar mode uses <code>/avatar/{userId}</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-group">
+      <div class="s-header">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3l4-7h14a2 2 0 0 1 2 2v3Z"/>
+            <path d="M16 5l-4 4-4-4"/>
+            <path d="M12 9V3"/>
+          </svg>
+        </div>
+        <h4>Camera</h4>
+        <div class="s-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="s-body">
+        <div class="field">
+          <label>Field of View</label>
+          <div class="field-row">
+            <input type="range" id="cfg_fov" min="10" max="80" value="30" step="1"/>
+            <span class="range-val" id="cfg_fov_val">30°</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Horizontal Angle</label>
+          <div class="angle-row">
+            <div class="angle-disc"><div class="angle-needle" id="needleH"></div></div>
+            <div style="flex:1">
+              <div class="field-row">
+                <input type="range" id="cfg_orbitH" min="0" max="360" value="0" step="1"/>
+                <span class="range-val" id="cfg_orbitH_val">0°</span>
+              </div>
+              <div class="field-hint">0° = front · 90° = right · 180° = back</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Vertical Angle</label>
+          <div class="angle-row">
+            <div class="angle-disc"><div class="angle-needle" id="needleV"></div></div>
+            <div style="flex:1">
+              <div class="field-row">
+                <input type="range" id="cfg_orbitV" min="5" max="175" value="72" step="1"/>
+                <span class="range-val" id="cfg_orbitV_val">72°</span>
+              </div>
+              <div class="field-hint">0° = top-down · 90° = eye-level · 180° = below</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Distance</label>
+          <div class="field-row">
+            <input type="range" id="cfg_orbitDist" min="1" max="15" value="5.8" step="0.1"/>
+            <span class="range-val" id="cfg_orbitDist_val">5.8</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Look-At Height</label>
+          <div class="field-row">
+            <input type="range" id="cfg_lookY" min="0" max="3" value="1.4" step="0.05"/>
+            <span class="range-val" id="cfg_lookY_val">1.40</span>
+          </div>
+          <div class="field-hint">Vertical center of orbit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-group">
+      <div class="s-header">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 11h4l2-3 2 3h4"/>
+            <path d="M7 11l-2 6"/>
+            <path d="M17 11l2 6"/>
+            <path d="M9 17h6"/>
+          </svg>
+        </div>
+        <h4>User Controls</h4>
+        <div class="s-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="s-body">
+        <div class="toggle on" id="tog_drag" data-key="drag"><div class="toggle-track"></div><span class="toggle-label">Allow orbit</span></div>
+        <div class="toggle on" id="tog_zoom" data-key="zoom"><div class="toggle-track"></div><span class="toggle-label">Allow zoom</span></div>
+        <div class="toggle" id="tog_pan" data-key="pan"><div class="toggle-track"></div><span class="toggle-label">Allow pan</span></div>
+      </div>
+    </div>
+
+    <div class="s-group">
+      <div class="s-header">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.8 4.8L19 9.5l-4 3.4L16.2 18 12 15.4 7.8 18 9 12.9 5 9.5l5.2-1.7L12 3Z"/>
+          </svg>
+        </div>
+        <h4>Animation</h4>
+        <div class="s-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="s-body">
+        <div class="field">
+          <label>Idle Animation</label>
+          <div class="pills" id="animPills">
+            <button class="pill" data-anim="spin">Spin</button>
+            <button class="pill" data-anim="sway">Sway</button>
+            <button class="pill active" data-anim="float">Float</button>
+            <button class="pill" data-anim="none">None</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Speed</label>
+          <div class="field-row">
+            <input type="range" id="cfg_animSpeed" min="0.1" max="4" value="1" step="0.1"/>
+            <span class="range-val" id="cfg_animSpeed_val">1.0×</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-group">
+      <div class="s-header">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+            <path d="M12 2a7 7 0 0 0-4 12.8c.6.4 1 1.1 1 1.8V18h6v-1.4c0-.7.4-1.4 1-1.8A7 7 0 0 0 12 2Z"/>
+          </svg>
+        </div>
+        <h4>Lighting</h4>
+        <div class="s-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="s-body">
+        <div class="field">
+          <label>Ambient</label>
+          <div class="field-row">
+            <input type="color" id="cfg_ambientCol" value="#ffffff"/>
+            <input type="range" id="cfg_ambient" min="0" max="2" value="0.7" step="0.05"/>
+            <span class="range-val" id="cfg_ambient_val">0.70</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Directional Lights</label>
+          <div id="lightsList"></div>
+          <button class="btn-add-light" id="addLight">+ Add Light</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-group">
+      <div class="s-header">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="13.5" cy="6.5" r="2.5"/>
+            <circle cx="7" cy="17" r="2.5"/>
+            <circle cx="18" cy="16" r="2.5"/>
+            <path d="M15.7 8.2l1.6 5.2"/>
+            <path d="M11.2 7.8L8.8 14.4"/>
+            <path d="M9.5 17h6"/>
+          </svg>
+        </div>
+        <h4>Scene</h4>
+        <div class="s-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="s-body">
+        <div class="toggle" id="tog_transparent" data-key="transparent"><div class="toggle-track"></div><span class="toggle-label">Transparent background</span></div>
+
+        <div class="field" id="bgColorField">
+          <label>Background Color</label>
+          <div class="field-row">
+            <input type="color" id="cfg_bg" value="#0e0e16"/>
+            <span class="color-hex" id="cfg_bg_hex">#0e0e16</span>
+          </div>
+        </div>
+
+        <div class="toggle on" id="tog_showFloor" data-key="showFloor"><div class="toggle-track"></div><span class="toggle-label">Show ground disc</span></div>
+      </div>
+    </div>
+
+    <div class="output-section">
+      <h4>
+        <span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 8L4 12l4 4"/>
+            <path d="M16 8l4 4-4 4"/>
+            <path d="M14 4l-4 16"/>
+          </svg>
+        </span>
+        Embed Code
+      </h4>
+      <div class="output-tabs">
+        <button class="output-tab active" data-tab="iframe">iframe</button>
+        <button class="output-tab" data-tab="url">URL only</button>
+      </div>
+      <div class="output-code">
+        <button class="btn-copy" id="copyBtn">Copy</button>
+        <pre id="outputCode"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PROXY = './r';
+const PROXY_BATCH = './rb';
+const GUIDE_PREF_KEY = 'roembed_configurator_hide_guide';
+
+const APP_BASE = new URL('./', window.location.href);
+const AVATAR_EMBED_BASE = new URL('./avatar', APP_BASE).toString();
+const ITEM_EMBED_BASE   = new URL('./item', APP_BASE).toString();
+
+const proxied = url => `${PROXY}?url=${encodeURIComponent(url)}`;
+
+function rbxCdnUrlFromHash(h){
+  let i = 31;
+  const n = Math.min(38, h.length);
+  for(let t = 0; t < n; t++) i ^= h.charCodeAt(t);
+  return `https://t${i%8}.rbxcdn.com/${h}`;
+}
+
+function normalizeRbxRef(r){
+  if(!r) return null;
+  if(typeof r === 'string' && (r.startsWith('http://') || r.startsWith('https://'))) return r;
+  let s = String(r).split('#')[0].split('?')[0].replace(/^\/+/, '');
+  if(/^[A-Z0-9]+DAY-/.test(s) || s.startsWith('30DAY-')) return rbxCdnUrlFromHash(s);
+  if(s.includes('rbxcdn.com/')) return s.startsWith('http') ? s : 'https://' + s;
+  return s;
+}
+
+async function fetchBatch(urls){
+  const r = await fetch(PROXY_BATCH, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({urls})
+  });
+  if(!r.ok) throw new Error(`Batch HTTP ${r.status}`);
+  return r.json();
+}
+
+function b64toText(b){
+  return new TextDecoder().decode(Uint8Array.from(atob(b), c => c.charCodeAt(0)));
+}
+
+async function fetchJson(url){
+  const r = await fetch(proxied(url));
+  const txt = await r.text();
+
+  let data = null;
+  try { data = JSON.parse(txt); } catch {}
+
+  if(!r.ok){
+    const msg = data?.errors?.[0]?.message || data?.error || `HTTP ${r.status}`;
+    throw new Error(msg);
+  }
+
+  return data ?? txt;
+}
+
+function esc(s){
+  return s
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+const DEG = Math.PI / 180;
+
+const DEFAULT_LIGHTS = [
+  {x:3,y:5,z:4,color:'#ffffff',i:1},
+  {x:-3,y:3,z:-2,color:'#88ccff',i:.35},
+  {x:0,y:2,z:-5,color:'#ff88cc',i:.25},
+];
+
+const S = {
+  mode:'avatar',
+  value:'1502571',
+
+  bg:'#0e0e16',
+  transparent:false,
+  showFloor:true,
+
+  fov:30,
+  orbitH:0,
+  orbitV:72,
+  orbitDist:5.8,
+  lookY:1.4,
+
+  camX:0,
+  camY:0,
+  camZ:0,
+
+  drag:true,
+  zoom:true,
+  pan:false,
+
+  anim:'float',
+  animSpeed:1,
+
+  ambient:.7,
+  ambientCol:'#ffffff',
+  lights: JSON.parse(JSON.stringify(DEFAULT_LIGHTS)),
+
+  outputTab:'iframe',
+};
+
+function computeCam(){
+  const phi = S.orbitV * DEG;
+  const theta = S.orbitH * DEG;
+  const d = S.orbitDist;
+  S.camX = d * Math.sin(phi) * Math.sin(theta);
+  S.camY = S.lookY + d * Math.cos(phi);
+  S.camZ = d * Math.sin(phi) * Math.cos(theta);
+}
+computeCam();
+
+const ctr = document.getElementById('previewCanvas');
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(S.bg);
+
+const camera = new THREE.PerspectiveCamera(S.fov, 1, .1, 100);
+camera.position.set(S.camX, S.camY, S.camZ);
+
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+ctr.appendChild(renderer.domElement);
+
+const ctrl = new THREE.OrbitControls(camera, renderer.domElement);
+ctrl.enableDamping = true;
+ctrl.dampingFactor = .07;
+ctrl.target.set(0, S.lookY, 0);
+ctrl.autoRotate = false;
+ctrl.autoRotateSpeed = 2;
+ctrl.minDistance = 1;
+ctrl.maxDistance = 15;
+ctrl.maxPolarAngle = Math.PI * .88;
+ctrl.minPolarAngle = Math.PI * .1;
+
+const ambientLight = new THREE.AmbientLight(0xffffff, S.ambient);
+scene.add(ambientLight);
+
+let dirLights = [];
+function rebuildLights(){
+  dirLights.forEach(l => scene.remove(l));
+  dirLights = [];
+  S.lights.forEach(c => {
+    const l = new THREE.DirectionalLight(new THREE.Color(c.color).getHex(), c.i);
+    l.position.set(c.x, c.y, c.z);
+    scene.add(l);
+    dirLights.push(l);
+  });
+}
+rebuildLights();
+
+const floor = new THREE.Mesh(
+  new THREE.CircleGeometry(3, 48),
+  new THREE.MeshStandardMaterial({
+    color: new THREE.Color(S.bg).multiplyScalar(.8).getHex(),
+    roughness:.9,
+    metalness:.1,
+    transparent:true,
+    opacity:.25
+  })
+);
+floor.rotation.x = -Math.PI/2;
+scene.add(floor);
+
+let currentModel = null;
+const clock = new THREE.Clock();
+
+function animate(){
+  requestAnimationFrame(animate);
+
+  const t = clock.getElapsedTime();
+  const sp = S.animSpeed;
+
+  if(currentModel){
+    if(S.anim === 'sway'){
+      if(S.mode === 'item'){
+        currentModel.rotation.y = Math.PI + Math.sin(t * 0.45 * sp) * 0.08;
+        currentModel.position.y = currentModel._baseY;
+      } else {
+        currentModel.rotation.y = Math.PI + Math.sin(t * 0.5 * sp) * 0.3;
+        currentModel.position.y = currentModel._baseY;
+      }
+    } else if(S.anim === 'float'){
+      if(S.mode === 'item'){
+        /* Item: vertical float only, almost no yaw to avoid fake circles */
+        currentModel.position.y = currentModel._baseY + Math.sin(t * 1.15 * sp) * 0.05;
+        currentModel.rotation.y = Math.PI + Math.sin(t * 0.22 * sp) * 0.03;
+      } else {
+        /* Avatar: keep the original nicer float */
+        currentModel.position.y = currentModel._baseY + Math.sin(t * 1.2 * sp) * 0.08;
+        currentModel.rotation.y = Math.PI + Math.sin(t * 0.3 * sp) * 0.15;
+      }
+    } else if(S.anim === 'none' || S.anim === 'spin'){
+      currentModel.rotation.y = Math.PI;
+      currentModel.position.y = currentModel._baseY;
+    }
+  }
+
+  ctrl.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+new ResizeObserver(() => {
+  const w = ctr.clientWidth;
+  const h = ctr.clientHeight;
+  if(!w || !h) return;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+}).observe(ctr);
+
+const pS = document.getElementById('pStatus');
+const pT = document.getElementById('pTitle');
+const pM = document.getElementById('pMsg');
+const pL = document.getElementById('pLoader');
+
+function setPS(title, msg, loading=false){
+  pS.classList.remove('hidden');
+  pT.textContent = title;
+  pM.textContent = msg;
+  pL.classList.toggle('on', loading);
+}
+function clearPS(){
+  pS.classList.add('hidden');
+}
+
+const modeOverlay = document.getElementById('modeOverlay');
+const startConfiguratorBtn = document.getElementById('startConfiguratorBtn');
+const skipGuideBtn = document.getElementById('skipGuideBtn');
+const guideRememberToggle = document.getElementById('guideRememberToggle');
+const assetModeSelect = document.getElementById('assetModeSelect');
+const assetInput = document.getElementById('assetInput');
+const modeChip = document.getElementById('modeChip');
+const previewModeLabel = document.getElementById('previewModeLabel');
+const sourceIdLabel = document.getElementById('sourceIdLabel');
+const sourceIdHint = document.getElementById('sourceIdHint');
+
+function getModeLabel(mode){
+  return mode === 'item' ? 'Catalog Item' : 'Avatar';
+}
+
+function getInputPlaceholder(mode){
+  return mode === 'item' ? 'Roblox Asset ID…' : 'Roblox User ID…';
+}
+
+function getDefaultInputValue(mode){
+  return mode === 'item' ? '1029025' : '1502571';
+}
+
+function syncModeUI(){
+  assetModeSelect.value = S.mode;
+  modeChip.textContent = S.mode;
+  previewModeLabel.textContent = getModeLabel(S.mode);
+  assetInput.placeholder = getInputPlaceholder(S.mode);
+
+  if(!assetInput.value.trim() || assetInput.value === '1502571' || assetInput.value === '1029025'){
+    assetInput.value = getDefaultInputValue(S.mode);
+    S.value = assetInput.value;
+  }
+
+  if(S.mode === 'item'){
+    sourceIdLabel.textContent = 'Catalog Asset ID';
+    sourceIdHint.textContent = 'Clean format: /item/{assetId} (still supports ?assetId=).';
+  } else {
+    sourceIdLabel.textContent = 'Roblox User ID';
+    sourceIdHint.textContent = 'Clean format: /avatar/{userId} (still supports ?id=).';
+  }
+
+  document.querySelectorAll('[data-source]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.source === S.mode);
+  });
+
+  document.querySelectorAll('[data-mode-card]').forEach(card => {
+    card.classList.toggle('active', card.dataset.modeCard === S.mode);
+  });
+
+  updateOutput();
+}
+
+function setMode(mode, updateInput=true){
+  S.mode = (mode === 'item') ? 'item' : 'avatar';
+  if(updateInput){
+    assetInput.value = getDefaultInputValue(S.mode);
+    S.value = assetInput.value;
+  }
+  syncModeUI();
+}
+
+function enterConfigurator(noteSkipped=false){
+  modeOverlay.classList.add('hidden');
+
+  if(guideRememberToggle.checked){
+    localStorage.setItem(GUIDE_PREF_KEY, '1');
+  }
+
+  setPS(
+    `Ready — ${getModeLabel(S.mode)}`,
+    noteSkipped
+      ? 'Guide skipped. Enter an ID, then click Load.'
+      : 'Enter an ID, then click Load to render the preview.',
+    false
+  );
+}
+
+document.querySelectorAll('[data-mode-card]').forEach(card => {
+  card.addEventListener('click', () => {
+    setMode(card.dataset.modeCard, true);
+  });
+});
+
+startConfiguratorBtn.addEventListener('click', () => {
+  enterConfigurator(false);
+});
+
+skipGuideBtn.addEventListener('click', () => {
+  enterConfigurator(true);
+});
+
+assetModeSelect.addEventListener('change', () => {
+  setMode(assetModeSelect.value, true);
+});
+
+document.querySelectorAll('#sourcePills .pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    setMode(btn.dataset.source, true);
+  });
+});
+
+function clearCurrentModel(){
+  if(currentModel){
+    scene.remove(currentModel);
+    currentModel = null;
+  }
+}
+
+function prepareParsedObject(obj){
+  obj.traverse(c => {
+    if(!c.isMesh) return;
+    const map = c.material?.map || null;
+    c.material = new THREE.MeshStandardMaterial({
+      map,
+      metalness:0,
+      roughness:.45,
+      envMapIntensity:.8,
+      side:THREE.DoubleSide
+    });
+    if(c.material.map) c.material.map.encoding = THREE.sRGBEncoding;
+    c.material.needsUpdate = true;
+  });
+}
+
+function finalizeAvatarObject(obj){
+  const box = new THREE.Box3().setFromObject(obj);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
+
+  obj.position.sub(center);
+  obj.position.y += size.y / 2;
+
+  const scale = 3 / (Math.max(size.x, size.y, size.z) || 1);
+  obj.scale.setScalar(scale);
+  obj.position.multiplyScalar(scale);
+
+  obj._baseY = obj.position.y;
+  obj.rotation.y = Math.PI;
+
+  clearCurrentModel();
+  scene.add(obj);
+  currentModel = obj;
+
+  ctrl.update();
+  return { scale };
+}
+
+function finalizeItemObject(obj){
+  const box = new THREE.Box3().setFromObject(obj);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+
+  obj.position.sub(center);
+
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scale = 2.6 / maxDim;
+  obj.scale.setScalar(scale);
+
+  obj.rotation.y = Math.PI;
+  obj.updateMatrixWorld(true);
+
+  const finalBox = new THREE.Box3().setFromObject(obj);
+  const finalCenter = finalBox.getCenter(new THREE.Vector3());
+
+  obj.position.x -= finalCenter.x;
+  obj.position.z -= finalCenter.z;
+  obj.position.y -= finalBox.min.y;
+
+  obj._baseY = obj.position.y;
+
+  obj.updateMatrixWorld(true);
+
+  clearCurrentModel();
+  scene.add(obj);
+  currentModel = obj;
+
+  const fittedBox = new THREE.Box3().setFromObject(obj);
+  const fittedHeight = fittedBox.max.y - fittedBox.min.y;
+  ctrl.target.set(0, Math.max(0.15, fittedHeight * 0.35), 0);
+  ctrl.update();
+
+  return { scale, fittedHeight };
+}
+
+async function loadAvatar(userId){
+  setPS('Fetching avatar…', `User ${userId}`, true);
+
+  const thumb = await fetchJson(`https://thumbnails.roblox.com/v1/users/avatar-3d?userId=${userId}`);
+  if(!thumb.imageUrl) throw new Error('No 3D avatar data for this user.');
+
+  setPS('Loading avatar manifest…', '', true);
+  const manifest = await fetchJson(thumb.imageUrl);
+  if(!manifest.obj) throw new Error('Manifest missing OBJ.');
+
+  const objUrl = normalizeRbxRef(manifest.obj);
+  const mtlUrl = normalizeRbxRef(manifest.mtl);
+  const texRefs = (manifest.textures || []).map(normalizeRbxRef).filter(Boolean);
+
+  const batch = [objUrl];
+  if(mtlUrl) batch.push(mtlUrl);
+  batch.push(...texRefs);
+
+  setPS('Downloading assets…', `${batch.length} files`, true);
+  const res = await fetchBatch(batch);
+
+  let idx = 0;
+  if(!res[idx]?.ok) throw new Error('OBJ download failed.');
+  const objText = b64toText(res[idx].data); idx++;
+
+  let mtlText = null;
+  if(mtlUrl){
+    if(res[idx]?.ok) mtlText = b64toText(res[idx].data);
+    idx++;
+  }
+
+  const mgr = new THREE.LoadingManager();
+  mgr.setURLModifier(u => {
+    const n = normalizeRbxRef(u);
+    if(typeof n === 'string' && /^https?:\/\//.test(n)) return proxied(n);
+    if(typeof n === 'string' && /^[A-Z0-9]+DAY-/.test(n)) return proxied(rbxCdnUrlFromHash(n));
+    return n;
+  });
+
+  let mats = null;
+  if(mtlText){
+    try{
+      const ml = new THREE.MTLLoader(mgr);
+      mats = ml.parse(mtlText, '');
+      mats.preload();
+    }catch(e){}
+  }
+
+  const ol = new THREE.OBJLoader(mgr);
+  if(mats) ol.setMaterials(mats);
+  const obj = ol.parse(objText);
+
+  prepareParsedObject(obj);
+  finalizeAvatarObject(obj);
+
+  // Always enforce camera from configurator settings after each load.
+  applyState();
+
+  ctrl.update();
+  clearPS();
+}
+
+async function resolveCatalogAsset(assetId){
+  setPS('Resolving catalog item…', `Asset ${assetId}`, true);
+
+  const resolvers = [
+    `https://economy.roblox.com/v2/assets/${assetId}/details`,
+    `https://catalog.roblox.com/v1/catalog/items/${assetId}/details?itemType=Asset`
+  ];
+
+  let lastError = null;
+
+  for(const url of resolvers){
+    try{
+      const details = await fetchJson(url);
+
+      if(details?.itemType === 'Asset' && details?.id){
+        return { id: String(details.id), name: details.name || `Asset ${details.id}` };
+      }
+
+      if(details?.AssetId){
+        return {
+          id: String(details.AssetId),
+          name: details.Name || details.name || `Asset ${details.AssetId}`
+        };
+      }
+    } catch(e){
+      lastError = e;
+    }
+  }
+
+  if(lastError){
+    throw new Error(lastError.message || 'Unable to resolve this asset.');
+  }
+
+  throw new Error('This catalog entry is not a usable Asset.');
+}
+
+async function get3DManifestUrl(assetId){
+  setPS('Requesting 3D thumbnail…', '', true);
+
+  const thumb = await fetchJson(`https://thumbnails.roblox.com/v1/assets-thumbnail-3d?assetId=${assetId}`);
+  const thumbEntry = Array.isArray(thumb?.data)
+    ? thumb.data[0]
+    : (Array.isArray(thumb) ? thumb[0] : thumb);
+
+  if(!thumbEntry){
+    throw new Error('No 3D thumbnail response returned for this asset.');
+  }
+
+  if(thumbEntry.state && thumbEntry.state !== 'Completed'){
+    throw new Error(`3D thumbnail state: ${thumbEntry.state}`);
+  }
+
+  if(!thumbEntry.imageUrl){
+    throw new Error('This item has no 3D manifest URL.');
+  }
+
+  return thumbEntry.imageUrl;
+}
+
+async function loadItem(assetId){
+  const details = await resolveCatalogAsset(assetId);
+  const resolvedId = details.id;
+
+  const manifestUrl = await get3DManifestUrl(resolvedId);
+
+  setPS('Downloading item model…', details.name || `Asset ${resolvedId}`, true);
+  const manifest = await fetchJson(manifestUrl);
+
+  if(!manifest.obj){
+    throw new Error('3D manifest exists but OBJ is missing.');
+  }
+
+  const objUrl = normalizeRbxRef(manifest.obj);
+  const mtlUrl = normalizeRbxRef(manifest.mtl);
+  const texRefs = (manifest.textures || []).map(normalizeRbxRef).filter(Boolean);
+
+  const batch = [objUrl];
+  if(mtlUrl) batch.push(mtlUrl);
+  batch.push(...texRefs);
+
+  const res = await fetchBatch(batch);
+
+  let idx = 0;
+  if(!res[idx]?.ok) throw new Error('OBJ download failed.');
+  const objText = b64toText(res[idx].data); idx++;
+
+  let mtlText = null;
+  if(mtlUrl){
+    if(res[idx]?.ok) mtlText = b64toText(res[idx].data);
+    idx++;
+  }
+
+  const mgr = new THREE.LoadingManager();
+  mgr.setURLModifier(u => {
+    const n = normalizeRbxRef(u);
+    if(typeof n === 'string' && /^https?:\/\//.test(n)) return proxied(n);
+    if(typeof n === 'string' && /^[A-Z0-9]+DAY-/.test(n)) return proxied(rbxCdnUrlFromHash(n));
+    return n;
+  });
+
+  let mats = null;
+  if(mtlText){
+    try{
+      const ml = new THREE.MTLLoader(mgr);
+      mats = ml.parse(mtlText, '');
+      mats.preload();
+    }catch(e){}
+  }
+
+  const ol = new THREE.OBJLoader(mgr);
+  if(mats) ol.setMaterials(mats);
+  const obj = ol.parse(objText);
+
+  prepareParsedObject(obj);
+  finalizeItemObject(obj);
+
+  // Always enforce camera from configurator settings after each load.
+  applyState();
+
+  ctrl.update();
+  clearPS();
+}
+
+function applyState(){
+  if(S.transparent){
+    scene.background = null;
+    renderer.setClearColor(0x000000, 0);
+    document.getElementById('checker').classList.add('show');
+  } else {
+    scene.background = new THREE.Color(S.bg);
+    renderer.setClearColor(new THREE.Color(S.bg).getHex(), 1);
+    floor.material.color.set(new THREE.Color(S.bg).multiplyScalar(.8));
+    document.getElementById('checker').classList.remove('show');
+  }
+
+  floor.visible = S.showFloor && !S.transparent;
+
+  computeCam();
+
+  camera.fov = S.fov;
+  camera.updateProjectionMatrix();
+  camera.position.set(S.camX, S.camY, S.camZ);
+
+  ctrl.target.set(0, S.lookY, 0);
+  ctrl.enableRotate = S.drag;
+  ctrl.enableZoom = S.zoom;
+  ctrl.enablePan = S.pan;
+  ctrl.autoRotate = (S.anim === 'spin');
+  ctrl.autoRotateSpeed = 2 * S.animSpeed;
+
+  document.getElementById('needleH').style.transform = `rotate(${S.orbitH}deg)`;
+  document.getElementById('needleV').style.transform = `rotate(${S.orbitV - 90}deg)`;
+
+  ambientLight.intensity = S.ambient;
+  ambientLight.color.set(S.ambientCol);
+  rebuildLights();
+
+  if(currentModel && (S.anim === 'none' || S.anim === 'spin')){
+    currentModel.rotation.y = Math.PI;
+    currentModel.position.y = currentModel._baseY;
+  }
+
+  ctrl.update();
+  updateOutput();
+}
+
+async function triggerLoad(){
+  const v = assetInput.value.trim();
+
+  if(!v || isNaN(v)){
+    setPS('Invalid ID', S.mode === 'item' ? 'Enter a numeric Asset ID.' : 'Enter a numeric User ID.', false);
+    return;
+  }
+
+  S.value = v;
+
+  const btn = document.getElementById('loadBtn');
+  btn.disabled = true;
+
+  try{
+    if(S.mode === 'item'){
+      await loadItem(v);
+    } else {
+      await loadAvatar(v);
+    }
+  } catch(e){
+    console.error(e);
+    setPS('Error', e.message || 'Failed to load.', false);
+  } finally {
+    btn.disabled = false;
+    updateOutput();
+  }
+}
+
+document.getElementById('loadBtn').addEventListener('click', triggerLoad);
+assetInput.addEventListener('keydown', e => {
+  if(e.key === 'Enter') triggerLoad();
+});
+
+document.querySelectorAll('.s-header').forEach(h => {
+  h.addEventListener('click', () => h.closest('.s-group').classList.toggle('closed'));
+});
+
+function bindRange(id, key, format){
+  const el = document.getElementById(id);
+  const val = document.getElementById(id + '_val');
+  el.addEventListener('input', () => {
+    S[key] = parseFloat(el.value);
+    if(val) val.textContent = format(S[key]);
+    applyState();
+  });
+}
+bindRange('cfg_fov', 'fov', v => v + '°');
+bindRange('cfg_orbitH', 'orbitH', v => v + '°');
+bindRange('cfg_orbitV', 'orbitV', v => v + '°');
+bindRange('cfg_orbitDist', 'orbitDist', v => v.toFixed(1));
+bindRange('cfg_lookY', 'lookY', v => v.toFixed(2));
+bindRange('cfg_animSpeed', 'animSpeed', v => v.toFixed(1) + '×');
+bindRange('cfg_ambient', 'ambient', v => v.toFixed(2));
+
+document.querySelectorAll('.toggle').forEach(t => {
+  t.addEventListener('click', () => {
+    t.classList.toggle('on');
+    const k = t.dataset.key;
+    S[k] = t.classList.contains('on');
+
+    if(k === 'transparent'){
+      document.getElementById('bgColorField').style.display = S.transparent ? 'none' : '';
+    }
+
+    applyState();
+  });
+});
+
+document.querySelectorAll('#animPills .pill').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('#animPills .pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    S.anim = p.dataset.anim;
+    applyState();
+  });
+});
+
+const bgI = document.getElementById('cfg_bg');
+const bgH = document.getElementById('cfg_bg_hex');
+bgI.addEventListener('input', () => {
+  S.bg = bgI.value;
+  bgH.textContent = bgI.value;
+  applyState();
+});
+
+document.getElementById('cfg_ambientCol').addEventListener('input', e => {
+  S.ambientCol = e.target.value;
+  applyState();
+});
+
+function renderLights(){
+  const list = document.getElementById('lightsList');
+  list.innerHTML = '';
+
+  S.lights.forEach((l, i) => {
+    const el = document.createElement('div');
+    el.className = 'light-item';
+    el.innerHTML = `
+      <input type="color" value="${l.color}" data-i="${i}" data-f="color"/>
+      <div>
+        <div style="display:flex;gap:4px;margin-bottom:4px">
+          <input type="number" value="${l.x}" step="0.5" data-i="${i}" data-f="x" style="width:50px" title="X"/>
+          <input type="number" value="${l.y}" step="0.5" data-i="${i}" data-f="y" style="width:50px" title="Y"/>
+          <input type="number" value="${l.z}" step="0.5" data-i="${i}" data-f="z" style="width:50px" title="Z"/>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:.65rem;color:var(--gray-dark);font-family:var(--font-mono)">INT</span>
+          <input type="range" min="0" max="3" step="0.05" value="${l.i}" data-i="${i}" data-f="i" style="flex:1"/>
+          <span style="font-size:.68rem;color:var(--cyan);font-family:var(--font-mono);min-width:30px;text-align:right">${l.i.toFixed(2)}</span>
+        </div>
+      </div>
+      <button class="light-remove" data-i="${i}">×</button>
+    `;
+    list.appendChild(el);
+  });
+
+  list.querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const i = +inp.dataset.i;
+      const f = inp.dataset.f;
+
+      if(f === 'color'){
+        S.lights[i].color = inp.value;
+      } else if(f === 'i'){
+        S.lights[i].i = parseFloat(inp.value);
+        inp.nextElementSibling.textContent = S.lights[i].i.toFixed(2);
+      } else {
+        S.lights[i][f] = parseFloat(inp.value) || 0;
+      }
+
+      applyState();
+    });
+  });
+
+  list.querySelectorAll('.light-remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      S.lights.splice(+btn.dataset.i, 1);
+      renderLights();
+      applyState();
+    });
+  });
+}
+renderLights();
+
+document.getElementById('addLight').addEventListener('click', () => {
+  S.lights.push({x:0,y:4,z:3,color:'#ffffff',i:.8});
+  renderLights();
+  applyState();
+});
+
+function genUrl(){
+  const p = new URLSearchParams();
+
+  if(S.transparent){
+    p.set('bg', 'transparent');
+  } else {
+    const h = S.bg.replace('#', '');
+    if(h !== '0e0e16') p.set('bg', h);
+  }
+
+  if(S.fov !== 30) p.set('fov', S.fov);
+  if(S.orbitH !== 0) p.set('orbitH', S.orbitH);
+  if(S.orbitV !== 72) p.set('orbitV', S.orbitV);
+  if(S.orbitDist !== 5.8) p.set('orbitDist', S.orbitDist);
+  if(S.lookY !== 1.4) p.set('lookY', S.lookY);
+
+  if(!S.drag) p.set('drag', '0');
+  if(!S.zoom) p.set('zoom', '0');
+  if(S.pan) p.set('pan', '1');
+
+  if(S.anim !== 'float') p.set('anim', S.anim);
+  if(S.animSpeed !== 1) p.set('animSpeed', S.animSpeed);
+
+  if(!S.showFloor) p.set('floor', '0');
+
+  if(S.ambient !== .7) p.set('ambient', S.ambient);
+
+  const ac = S.ambientCol.replace('#', '');
+  if(ac !== 'ffffff') p.set('ambientCol', ac);
+
+  if(JSON.stringify(S.lights) !== JSON.stringify(DEFAULT_LIGHTS)){
+    p.set('lights', JSON.stringify(S.lights.map(l => ({
+      x:l.x, y:l.y, z:l.z, color:l.color.replace('#',''), i:l.i
+    }))));
+  }
+
+  const base = (S.mode === 'item' ? ITEM_EMBED_BASE : AVATAR_EMBED_BASE).replace(/\/+$/, '');
+  const url = `${base}/${encodeURIComponent(S.value)}`;
+  const query = p.toString();
+  return query ? `${url}?${query}` : url;
+}
+
+function updateOutput(){
+  const url = genUrl();
+  const pre = document.getElementById('outputCode');
+
+  if(S.outputTab === 'url'){
+    pre.textContent = url;
+    return;
+  }
+
+  const allowTransparency = S.transparent ? ' allowtransparency="true"' : '';
+  pre.innerHTML =
+`<span class="hl">&lt;iframe</span>
+  <span class="str">src</span>=<span class="hl">"${esc(url)}"</span>
+  <span class="str">width</span>=<span class="hl">"400"</span>
+  <span class="str">height</span>=<span class="hl">"500"</span>
+  <span class="str">frameborder</span>=<span class="hl">"0"</span>
+  <span class="str">style</span>=<span class="hl">"border:none;border-radius:16px;overflow:hidden"</span>${allowTransparency}
+<span class="hl">&gt;&lt;/iframe&gt;</span>`;
+}
+
+function applyInitialStateFromUrl(){
+  const q = new URLSearchParams(window.location.search);
+
+  const rawMode = (q.get('mode') || q.get('type') || '').toLowerCase();
+  const urlMode = rawMode === 'item' ? 'item' : (rawMode === 'avatar' ? 'avatar' : null);
+  if(urlMode){
+    setMode(urlMode, false);
+  }
+
+  const targetMode = urlMode || S.mode;
+  const valueFromUrl = q.get('value') || q.get(targetMode === 'item' ? 'assetId' : 'id') || q.get('id');
+  if(valueFromUrl && /^\d+$/.test(valueFromUrl.trim())){
+    S.value = valueFromUrl.trim();
+    assetInput.value = S.value;
+  }
+
+  const hideGuide = localStorage.getItem(GUIDE_PREF_KEY) === '1' || q.get('guide') === '0';
+  if(hideGuide){
+    modeOverlay.classList.add('hidden');
+    setPS(
+      `Ready — ${getModeLabel(S.mode)}`,
+      'Enter an ID, then click Load to render the preview.',
+      false
+    );
+  }
+}
+
+document.querySelectorAll('.output-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.output-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    S.outputTab = t.dataset.tab;
+    updateOutput();
+  });
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const text = document.getElementById('outputCode').textContent;
+  try{
+    await navigator.clipboard.writeText(text);
+    const b = document.getElementById('copyBtn');
+    b.textContent = 'Copied!';
+    b.classList.add('copied');
+    setTimeout(() => {
+      b.textContent = 'Copy';
+      b.classList.remove('copied');
+    }, 1500);
+  } catch(e){}
+});
+
+document.getElementById('needleH').style.transform = `rotate(${S.orbitH}deg)`;
+document.getElementById('needleV').style.transform = `rotate(${S.orbitV - 90}deg)`;
+
+syncModeUI();
+applyInitialStateFromUrl();
+applyState();
+updateOutput();
+</script>
+</body>
+</html>

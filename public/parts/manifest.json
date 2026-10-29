@@ -1,0 +1,30 @@
+{
+  "format": "rbxmesh-v2",
+  "parts": {
+    "torso": {
+      "partAsset": 86499666,
+      "meshAsset": 8997174058,
+      "file": "torso.mesh"
+    },
+    "rightArm": {
+      "partAsset": 86499698,
+      "meshAsset": 8997173999,
+      "file": "rightArm.mesh"
+    },
+    "leftArm": {
+      "partAsset": 86499716,
+      "meshAsset": 8997174089,
+      "file": "leftArm.mesh"
+    },
+    "leftLeg": {
+      "partAsset": 4637242166,
+      "meshAsset": 14915799300,
+      "file": "leftLeg.mesh"
+    },
+    "rightLeg": {
+      "partAsset": 4637243648,
+      "meshAsset": 14915799303,
+      "file": "rightLeg.mesh"
+    }
+  }
+}
